@@ -6,8 +6,8 @@
 *.pdf
 
 # but do track two PDF files, even though you're ignoring .pdf files above
-!sfondo.pdf
-!sfondo_cmyk.pdf
+!example.pdf
+!example_cmyk.pdf
 
 # ignore all files that end with a tilde
 *~

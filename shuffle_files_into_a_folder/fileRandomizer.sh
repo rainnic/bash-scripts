@@ -5,7 +5,7 @@
 # 2017/01/17 --> fixed the help message and clean the script
 # 2017/02/11 --> fixed the debug output and optimized the random iteration 
 #
-# SETTING:
+# SETTINGS:
 EXTENSION_IN="mp3" 	# extension of the files to randomize
 DEBUG=true    		# if true, print statement after executing the command
 iterations=36 		# because the maximum number of iterations (a-z0-9) can only be set to 36

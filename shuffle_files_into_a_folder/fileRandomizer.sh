@@ -109,7 +109,7 @@ do
     newfile=${newfilename%.*}
     newfile=`echo $newfile | sed 's/\./_/g'` # if there are some ".", replace them with "_"
 
-    if [ "$DEBUG" == true ]; then echo -e "Original file:\n$file"; echo -e "After cleaning:\n$newfile.$EXTENSION_IN"; echo -e " "; fi
+    if [ "$DEBUG" == true ]; then echo -e "Original file:\n$file"; echo -e "After:\n$newfile.$EXTENSION_IN"; echo -e " "; fi
 
     if [ "$file" != "$newfile.$EXTENSION_IN" ]
          then

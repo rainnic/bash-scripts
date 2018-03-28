@@ -1,7 +1,7 @@
 Shuffle a list of files into a folder
 =====================================
 
-The script removes empty spaces and the special characters (', " and -) from the files and then it shuffles them by adding a random number or letter followed by an underscore.
+The script removes empty spaces and the special characters (', " and -) from the files and then it shuffles them by adding a random number followed by an underscore.
 
 # Usage
 First you have to check the SETTINGS section of the script and change if is necessary:
@@ -10,10 +10,9 @@ First you have to check the SETTINGS section of the script and change if is nece
 # SETTINGS:
 EXTENSION_IN="mp3" 	# extension of the files to randomize
 DEBUG=true    		# if true, print statement after executing the command
-iterations=36 		# because the maximum number of iterations (a-z0-9) can only be set to 36
 ```
 
-In this case the files to randomize and rename is MP3s, the debug is set to true and the array dimension is 36 (the maximum allowed).
+In this case the files to randomize and rename is MP3s and the debug is set to true
 
 After fixed, it works in this manner:
 

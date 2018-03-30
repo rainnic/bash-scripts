@@ -9,7 +9,6 @@ First you have to check the SETTINGS section of the script and change if is nece
 ```
 # SETTINGS:
 EXTENSION_IN="mp3" 	# extension of the files to randomize
-DEBUG=true    		# if true, print statement after executing the command
 ```
 
 In this case the files to randomize and rename is MP3s and the debug is set to true
@@ -19,6 +18,8 @@ After fixed, it works in this manner:
 ```
 ./random.sh -shuffle directory --> to add a random prefix to a directory of mp3
 ./random.sh -clean directory   --> to remove the prefix to a directory of mp3
+./random.sh -tags directory    --> to add id3 tags to a directory of mp3
+                                   from the filename: Album-Artist-Title.mp3
 ```
 
 __NOTE__: the directory is not necessary if you have the files in the working directory.

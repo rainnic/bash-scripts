@@ -7,6 +7,7 @@
 # 2018/03/28 --> change the iteration method and added a function to clean the filename
 # 2018/03/29 --> added clean/shuffle option for MP3 tags
 # 2018/03/30 --> added a new feature to write MP3 tags starting from the filename
+# 2018/03/31 --> adapted the script to work with any files extension
 #
 # Usage:
 # ./random.sh -shuffle directory --> to add a random prefix to a directory of $ext
@@ -21,63 +22,67 @@
 
 # SETTING:
 ext=mp3		# extension of the files to rename
-#DEBUG=true    	# if true, print statement after executing the command
 
 function cleanfile {
 	for file in *.$ext
         do
-	#if [ "$file" != `echo $file | sed "s/ /_/g; s/(//g;s/)//g; s/-//g; s/'/_/g"` ]
         if [ "$file" != `echo $file | sed "s/ /_/g; s/(//g;s/)//g; s/'/_/g"` ]
 	then 
-	     #mv "$file" `echo $file | sed "s/ /_/g; s/(//g;s/)//g; s/-//g; s/'/_/g"`
              mv "$file" `echo $file | sed "s/ /_/g; s/(//g;s/)//g; s/'/_/g"`
 	fi
 	done
 } 
 
 function tags {
+    if [ $ext = "mp3" ]; then
         COUNTER=1
 	for file in *.$ext
         do
-res="${file//[^-]}"
-items=${#res}
-#echo "$items"
-artist=`id3v2 -l $file | sed -nE 's/^.*Artist: (.*)/\1/p; s/ //g';`
-artistAlt=`id3v2 -l $file | sed -nE 's/^TPE1 \([^)]*\): (.*)/\1/p'`
-if [ `echo -n $artist | wc -c` == 0 ] && [ `echo -n $artistAlt | wc -c` == 0 ]
-#if [ `echo -n $artist | wc -c` == 0 ]
-    then
-echo "$COUNTER) $file hasn't the artist tag"
-COUNTER=$[$COUNTER +1]
-case "$items" in
-1)
-        id3v2 --album "NA" $file
-        id3v2 --TALB "NA" $file
-   artist=$(echo $file| cut -d'-' -f 1 | sed "s/_/ /g;s/\.[^.]*$//")
-        id3v2 --artist "$artist" $file
-        id3v2 --TPE1 "$artist" $file
-   title=$(echo $file| cut -d'-' -f 2 | sed "s/_/ /g;s/\.[^.]*$//")
-        id3v2 --song "$title" $file
-        id3v2 --TIT2 "$title" $file
-;;
-2) 
-   album=$(echo $file| cut -d'-' -f 1 | sed "s/_/ /g;s/\.[^.]*$//")
-        id3v2 --album "$album" $file
-        id3v2 --TALB "$album" $file
-   artist=$(echo $file| cut -d'-' -f 2 | sed "s/_/ /g;s/\.[^.]*$//")
-        id3v2 --artist "$artist" $file
-        id3v2 --TPE1 "$artist" $file
-   title=$(echo $file| cut -d'-' -f 3 | sed "s/_/ /g;s/\.[^.]*$//")
-        id3v2 --song "$title" $file
-        id3v2 --TIT2 "$title" $file
-;;
-*)
-   printf "\nDo nothing, the \x1b[31m\"$file\"\x1b[0m has a wrong format:\nonly album-artist-title or artist-title is allowed\n"
-;;
-esac;
+           res="${file//[^-]}"
+           items=${#res}
+           artist=`id3v2 -l $file | sed -nE 's/^.*Artist: (.*)/\1/p; s/ //g';`
+           artistAlt=`id3v2 -l $file | sed -nE 's/^TPE1 \([^)]*\): (.*)/\1/p'`
+           if [ `echo -n $artist | wc -c` == 0 ] && [ `echo -n $artistAlt | wc -c` == 0 ]
+           then
+                echo " "
+                echo "$COUNTER) $file hasn't the tags, they will be added."
+                COUNTER=$[$COUNTER +1]
+                case "$items" in
+                      1)
+                           id3v2 --album "NA" $file
+                           id3v2 --TALB "NA" $file
+                           artist=$(echo $file| cut -d'-' -f 1 | sed "s/_/ /g;s/\.[^.]*$//")
+                           id3v2 --artist "$artist" $file
+                           id3v2 --TPE1 "$artist" $file
+                           title=$(echo $file| cut -d'-' -f 2 | sed "s/_/ /g;s/\.[^.]*$//")
+                           id3v2 --song "$title" $file
+                           id3v2 --TIT2 "$title" $file
+                      ;;
+                      2) 
+                           album=$(echo $file| cut -d'-' -f 1 | sed "s/_/ /g;s/\.[^.]*$//")
+                           id3v2 --album "$album" $file
+                           id3v2 --TALB "$album" $file
+                           artist=$(echo $file| cut -d'-' -f 2 | sed "s/_/ /g;s/\.[^.]*$//")
+                           id3v2 --artist "$artist" $file
+                           id3v2 --TPE1 "$artist" $file
+                           title=$(echo $file| cut -d'-' -f 3 | sed "s/_/ /g;s/\.[^.]*$//")
+                           id3v2 --song "$title" $file
+                           id3v2 --TIT2 "$title" $file
+                      ;;
+                      *)
+                           printf "\nDo nothing, the \x1b[31m\"$file\"\x1b[0m has a wrong format:\nonly album-artist-title or artist-title is allowed\n"
+                      ;;
+                esac;
+           fi
+        done
+    fi
+}
+
+# Check if id3v2 exists
+if [ $ext = "mp3" ] && ! [ -x "$(command -v id3v2)" ]; then
+  printf "\nError: in order to execute correctly the script, you have to install \x1b[31mid3v2\x1b[0m.\n\n" >&2
+  exit 1
 fi
-done
-} 
 
 # Check if the user specifies a command or a directory, otherwise print the help message
 # if [ -z "$1" ] || [ -z "$2" ]
@@ -86,8 +91,8 @@ if [ "$1" != "-clean" ] && [ "$1" != "-shuffle" ] && [ "$1" != "-tags" ]
         echo "Usage:" 
         echo  "./random.sh -shuffle directory --> to add a random prefix to a directory of $ext"
         echo  "./random.sh -clean directory   --> to remove the prefix to a directory of $ext"
-        echo  "./random.sh -tags directory    --> to add id3 tags to a directory of $ext"
-        echo  "                                   from the filename: Album-Artist-Title.$ext"
+        echo  "./random.sh -tags directory    --> to add id3 tags to a directory of mp3"
+        echo  "                                   from the filename: Album-Artist-Title.mp3"
         echo  " "
         echo  "If the directory is omitted, the script check only the working directory"
         echo  " "
@@ -111,7 +116,8 @@ if [ "$1" = "-clean" ]
 then
     for i in *.$ext
     do
-        [[ $i =~ ^[0-9]+-(.*) ]] || continue
+      [[ $i =~ ^[0-9]+-(.*) ]] || continue
+      if [ $ext = "mp3" ]; then
         title=`id3v2 -l $i | awk 'gsub(/.*Title  : |Artist.*/,"")'`
         title=`echo $title | sed 's/^[0-9]*-//g'`
         id3v2 --song "$title" $i
@@ -124,13 +130,15 @@ then
         album=`echo $album | sed 's/^[0-9]*-//g'`
         id3v2 --album "$album" $i
         id3v2 --TALB "$album" $i
-        mv ${BASH_REMATCH[0]} ${BASH_REMATCH[1]}
+      fi
+      mv ${BASH_REMATCH[0]} ${BASH_REMATCH[1]}
     done
     cleanfile
 elif [ "$1" = "-shuffle" ]; then
     cleanfile
     seq -w 1 `ls *.$ext | wc -l` | shuf | paste - <(ls *.$ext) | while read seq name
     do
+      if [ $ext = "mp3" ]; then
         title=`id3v2 -l $name | awk 'gsub(/.*Title  : |Artist.*/,"")'`
         if [ `echo -n $title | wc -c` = 0 ]; then title=`id3v2 -l $name | sed -nE 's/^TIT2 \([^)]*\): (.*)/\1/p'`; fi
         if [ `echo -n $title | wc -c` = 0 ]; then title=${name%.*}; fi
@@ -148,7 +156,8 @@ elif [ "$1" = "-shuffle" ]; then
         id3v2 --album "$seq-$album" $name
         # TALB
         id3v2 --TALB "$seq-$album" $name
-        mv $name "$seq-$name"
+      fi
+      mv $name "$seq-$name"
     done
 elif [ "$1" = "-tags" ]; then
     cleanfile

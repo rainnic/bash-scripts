@@ -1,7 +1,7 @@
 Shuffle a list of files into a folder
 =====================================
 
-The script removes empty spaces and the special characters (', " and -) from the files and then it shuffles them by adding a random number followed by an underscore.
+The script removes empty spaces and the special characters (', " and -) from the files and then it shuffles them by adding a random number followed by an underscore. For the MP3 files it shuffles also the ID3 tags and it has a special feature to add them starting from the filename (if it is renamed like this: Album_name-Artist_name-Title_name.mp3).
 
 # Usage
 First you have to check the SETTINGS section of the script and change if is necessary:

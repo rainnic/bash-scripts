@@ -10,10 +10,10 @@
 # 2018/03/31 --> adapted the script to work with any files extension
 #
 # Usage:
-# ./random.sh -shuffle directory --> to add a random prefix to a directory of $ext
-# ./random.sh -clean directory   --> to remove the prefix to a directory of $ext
-# ./random.sh -tags directory    --> to add id3 tags to a directory of mp3
-#                                    from the filename: Album-Artist-Title.mp3
+# ./fileRandomizer.sh -shuffle directory --> to add a random prefix to a directory of $ext
+# ./fileRandomizer.sh -clean directory   --> to remove the prefix to a directory of $ext
+# ./fileRandomizer.sh -tags directory    --> to add id3 tags to a directory of mp3
+#                                            from the filename: Album-Artist-Title.mp3
 #
 # If the directory is omitted, the script check only the working directory
 #
@@ -89,10 +89,10 @@ fi
 if [ "$1" != "-clean" ] && [ "$1" != "-shuffle" ] && [ "$1" != "-tags" ]
     then
         echo "Usage:" 
-        echo  "./random.sh -shuffle directory --> to add a random prefix to a directory of $ext"
-        echo  "./random.sh -clean directory   --> to remove the prefix to a directory of $ext"
-        echo  "./random.sh -tags directory    --> to add id3 tags to a directory of mp3"
-        echo  "                                   from the filename: Album-Artist-Title.mp3"
+        echo  "./fileRandomizer.sh -shuffle directory --> to add a random prefix to a directory of $ext"
+        echo  "./fileRandomizer.sh -clean directory   --> to remove the prefix to a directory of $ext"
+        echo  "./fileRandomizer.sh -tags directory    --> to add id3 tags to a directory of mp3"
+        echo  "                                           from the filename: Album-Artist-Title.mp3"
         echo  " "
         echo  "If the directory is omitted, the script check only the working directory"
         echo  " "

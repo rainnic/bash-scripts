@@ -16,13 +16,13 @@ In this case the files to randomize and rename is MP3s and the debug is set to t
 After fixed, it works in this manner:
 
 ```
-./random.sh -shuffle directory --> to add a random prefix to a directory of mp3
-./random.sh -clean directory   --> to remove the prefix to a directory of mp3
-./random.sh -tags directory    --> to add id3 tags to a directory of mp3
-                                   from the filename: Album-Artist-Title.mp3
+./fileRandomizer.sh -shuffle directory --> to add a random prefix to a directory of mp3
+./fileRandomizer.sh -clean directory   --> to remove the prefix to a directory of mp3
+./fileRandomizer.sh -tags directory    --> to add id3 tags to a directory of mp3
+                                           from the filename: Album-Artist-Title.mp3
 ```
 
 __NOTE__: the directory is not necessary if you have the files in the working directory.
 
 More info on my site:
-http://rainnic.altervista.org/tag/bash
+http://rainnic.altervista.org/en/tag/bash

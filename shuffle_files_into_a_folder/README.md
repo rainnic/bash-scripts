@@ -8,7 +8,7 @@ First you have to check the SETTINGS section of the script and change if is nece
 
 ```
 # SETTINGS:
-EXTENSION_IN="mp3" 	# extension of the files to randomize
+ext=mp3		# extension of the files to shuffle
 ```
 
 In this case the files to randomize and rename is MP3s and the debug is set to true

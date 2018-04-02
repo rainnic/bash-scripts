@@ -25,4 +25,4 @@ After fixed, it works in this manner:
 __NOTE__: the directory is not necessary if you have the files in the working directory.
 
 More info on my site:
-http://rainnic.altervista.org/tag/bash
+http://rainnic.altervista.org/en/tag/bash

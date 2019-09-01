@@ -1,5 +1,5 @@
-Shuffle a list of files into a folder
-=====================================
+Refresh an application with bash
+================================
 
 This script kills and reloads an application after a specified amount of time, moving it in the previous workspace and position.
 
